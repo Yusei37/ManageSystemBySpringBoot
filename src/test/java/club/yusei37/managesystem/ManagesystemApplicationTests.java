@@ -73,5 +73,15 @@ public class ManagesystemApplicationTests {
         System.out.println("总计耗时: " + (endTime - beginTime) + " ms");
     }
 
+    @Test
+    public void cacheTest() {
+        long beginTime = System.currentTimeMillis();
+        for (int i = 0; i < 3; i++) {
+            userService.readUser("admin");
+        }
+        long endTime = System.currentTimeMillis();
+        System.out.println("总计耗时: " + (endTime - beginTime) + " ms");
+    }
+
 }
 

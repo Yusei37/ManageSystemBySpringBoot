@@ -1,5 +1,6 @@
 package club.yusei37.managesystem.service.impl;
 
+import club.yusei37.managesystem.aop.Cacheable;
 import club.yusei37.managesystem.bean.User;
 import club.yusei37.managesystem.dao.UserDao;
 import club.yusei37.managesystem.service.UserService;
@@ -7,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
@@ -31,14 +33,14 @@ public class UserServiceImpl implements UserService {
         return userList;
     }
 
-    @Transactional(isolation = Isolation.SERIALIZABLE)
+    @Transactional(propagation = Propagation.REQUIRED)
     @Override
     public void addUser(User user) {
         userDao.addUser(user);
         redisTemplate.opsForValue().set(user.getUserId(), user);
     }
 
-    @Transactional(isolation = Isolation.SERIALIZABLE)
+    @Transactional(propagation = Propagation.REQUIRED)
     @Override
     public void saveUser(User user) {
         userDao.saveUser(user);
@@ -46,21 +48,23 @@ public class UserServiceImpl implements UserService {
         redisTemplate.opsForValue().set(user.getUserId(), user);
     }
 
-    @Transactional(isolation = Isolation.SERIALIZABLE)
+    @Transactional(propagation = Propagation.REQUIRED)
     @Override
     public void deleteUser(String userId) {
         userDao.deleteUser(userId);
         redisTemplate.opsForValue().getOperations().delete(userId);
     }
 
+
+    @Cacheable(key = "$0", expired = 600)
     @Transactional(isolation = Isolation.READ_COMMITTED)
     @Override
     public User readUser(String userId) {
-        User user = (User) redisTemplate.opsForValue().get(userId);
-        if (user != null) {
-            return user;
-        }
-        user = userDao.readUser(userId);
+//        User user = (User) redisTemplate.opsForValue().get(userId);
+//        if (user != null) {
+//            return user;
+//        }
+        User user = userDao.readUser(userId);
         return user;
     }
 }

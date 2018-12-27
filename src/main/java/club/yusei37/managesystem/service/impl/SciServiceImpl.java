@@ -9,6 +9,7 @@ import club.yusei37.managesystem.service.SciService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.text.DateFormat;
@@ -31,19 +32,19 @@ public class SciServiceImpl implements SciService {
         return sciDao.listAllSciType();
     }
 
-    @Transactional(isolation = Isolation.SERIALIZABLE)
+    @Transactional(propagation = Propagation.REQUIRED)
     @Override
     public void addSciType(SciType sciType) {
         sciDao.addSciType(sciType);
     }
 
-    @Transactional(isolation = Isolation.SERIALIZABLE)
+    @Transactional(propagation = Propagation.REQUIRED)
     @Override
     public void modifySciType(SciType sciType) {
         sciDao.modifySciType(sciType);
     }
 
-    @Transactional(isolation = Isolation.SERIALIZABLE)
+    @Transactional(propagation = Propagation.REQUIRED)
     @Override
     public String deleteSciType(String typeId) {
         int num = sciDao.countTypeNumber(typeId);
@@ -116,7 +117,7 @@ public class SciServiceImpl implements SciService {
         }
     }
 
-    @Transactional(isolation = Isolation.SERIALIZABLE)
+    @Transactional(propagation = Propagation.REQUIRED)
     @Override
     public void modifySci(Sci sci) {
         sciDao.modifySci(sci);
@@ -145,14 +146,14 @@ public class SciServiceImpl implements SciService {
         }
     }
 
-    @Transactional(isolation = Isolation.SERIALIZABLE)
+    @Transactional(propagation = Propagation.REQUIRED)
     @Override
     public void checkSci(String sciId, String status) {
         sciDao.checkSci(sciId, status);
         addHistory(sciId, status);
     }
 
-    @Transactional(isolation = Isolation.SERIALIZABLE)
+    @Transactional(propagation = Propagation.REQUIRED)
     @Override
     public void addHistory(String sciId, String result) {
         History history = new History();
@@ -162,7 +163,7 @@ public class SciServiceImpl implements SciService {
         sciDao.addHistory(history);
     }
 
-    @Transactional(isolation = Isolation.SERIALIZABLE)
+    @Transactional(propagation = Propagation.REQUIRED)
     @Override
     public void deleteSci(String sciId) {
         sciDao.deleteSci(sciId);
@@ -181,25 +182,25 @@ public class SciServiceImpl implements SciService {
         return sciDao.getGroupList();
     }
 
-    @Transactional(isolation = Isolation.SERIALIZABLE)
+    @Transactional(propagation = Propagation.REQUIRED)
     @Override
     public void addGroup(Group group) {
         sciDao.addGroup(group);
     }
 
-    @Transactional(isolation = Isolation.SERIALIZABLE)
+    @Transactional(propagation = Propagation.REQUIRED)
     @Override
     public void modifyGroup(Group group) {
         sciDao.modifyGroup(group);
     }
 
-    @Transactional(isolation = Isolation.SERIALIZABLE)
+    @Transactional(propagation = Propagation.REQUIRED)
     @Override
     public void deleteGroup(String sciId, int weight) {
         sciDao.deleteGroup(sciId, weight);
     }
 
-    @Transactional(isolation = Isolation.SERIALIZABLE)
+    @Transactional(propagation = Propagation.REQUIRED)
     @Override
     public void deleteGroup2(String sciId) {
         sciDao.deleteGroup2(sciId);
