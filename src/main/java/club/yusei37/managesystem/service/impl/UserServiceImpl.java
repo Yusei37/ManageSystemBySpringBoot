@@ -56,7 +56,7 @@ public class UserServiceImpl implements UserService {
     }
 
 
-    @Cacheable(key = "$0", expired = 600)
+    @Cacheable(key = "#userId", expired = 600)
     @Transactional(isolation = Isolation.READ_COMMITTED)
     @Override
     public User readUser(String userId) {

@@ -79,6 +79,7 @@ public class ManagesystemApplicationTests {
         for (int i = 0; i < 3; i++) {
             userService.readUser("admin");
         }
+        userService.readUser("t001");
         long endTime = System.currentTimeMillis();
         System.out.println("总计耗时: " + (endTime - beginTime) + " ms");
     }
